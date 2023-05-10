@@ -1,0 +1,36 @@
+VERSION="0.29.2"
+export ZOPEN_TARBALL_URL="https://pkgconfig.freedesktop.org/releases/pkg-config-0.29.2.tar.gz"
+export ZOPEN_TARBALL_DEPS="make zoslib coreutils sed findutils"
+export ZOPEN_EXTRA_CONFIGURE_OPTS="--with-internal-glib"
+export ZOPEN_TYPE="TARBALL"
+
+zopen_check_results()
+{
+chk="$1/$2_check.log"
+
+PASS=$(egrep '^PASS:' ${chk} | wc -l | tr -d ' ')
+FAIL=$(egrep '^FAIL:' ${chk} | wc -l | tr -d ' ')
+
+totalTests=$(echo "${PASS}+${FAIL}" | bc)
+
+cat <<ZZ
+actualFailures:$FAIL
+totalTests:$totalTests
+expectedFailures:2
+ZZ
+}
+
+zopen_append_to_env()
+{
+  # echo envars outside of PATH, MANPATH, LIBPATH
+}
+
+zopen_append_to_setup()
+{
+  # echo commands that will run when installing via setup.sh
+}
+
+zopen_get_version()
+{
+  echo "0.29.2"
+}

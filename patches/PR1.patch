@@ -1,0 +1,98 @@
+diff --git a/configure b/configure
+index 3d2b15a..c3c307e 100755
+--- a/configure
++++ b/configure
+@@ -5140,6 +5140,10 @@ aix[4-9]*)
+   lt_cv_deplibs_check_method=pass_all
+   ;;
+ 
++openedition)
++  lt_cv_deplibs_check_method=pass_all
++  ;;
++
+ beos*)
+   lt_cv_deplibs_check_method=pass_all
+   ;;
+diff --git a/glib/configure b/glib/configure
+index 2f0a05f..0140695 100755
+--- a/glib/configure
++++ b/glib/configure
+@@ -8463,6 +8463,10 @@ aix[4-9]*)
+   lt_cv_deplibs_check_method=pass_all
+   ;;
+ 
++openedition)
++  lt_cv_deplibs_check_method=pass_all
++  ;;
++
+ beos*)
+   lt_cv_deplibs_check_method=pass_all
+   ;;
+diff --git a/glib/glib/glib-init.c b/glib/glib/glib-init.c
+index 8f45306..0cc5a9d 100644
+--- a/glib/glib/glib-init.c
++++ b/glib/glib/glib-init.c
+@@ -30,6 +30,7 @@
+ #include <stdlib.h>
+ #include <stdio.h>
+ #include <ctype.h>
++#include <strings.h>
+ 
+ /**
+  * g_mem_gc_friendly:
+@@ -106,7 +107,7 @@ g_parse_debug_string  (const gchar     *string,
+    * inside GLib.
+    */
+ 
+-  if (!strcasecmp (string, "help"))
++  if (!strcmp (string, "help"))
+     {
+       /* using stdio directly for the reason stated above */
+       fprintf (stderr, "Supported debug values:");
+diff --git a/glib/glib/gpoll.c b/glib/glib/gpoll.c
+index 940abae..aead257 100644
+--- a/glib/glib/gpoll.c
++++ b/glib/glib/gpoll.c
+@@ -52,6 +52,7 @@
+ #include <sys/types.h>
+ #include <time.h>
+ #include <stdlib.h>
++#include <poll.h>
+ #ifdef HAVE_SYS_TIME_H
+ #include <sys/time.h>
+ #endif /* HAVE_SYS_TIME_H */
+diff --git a/glib/glib/gstrfuncs.c b/glib/glib/gstrfuncs.c
+index 4fcd91c..4da4cd5 100644
+--- a/glib/glib/gstrfuncs.c
++++ b/glib/glib/gstrfuncs.c
+@@ -1826,7 +1826,7 @@ gint
+ g_strcasecmp (const gchar *s1,
+               const gchar *s2)
+ {
+-#ifdef HAVE_STRCASECMP
++#if defined(HAVE_STRCASECMP) && !defined(__MVS__)
+   g_return_val_if_fail (s1 != NULL, 0);
+   g_return_val_if_fail (s2 != NULL, 0);
+ 
+@@ -1887,7 +1887,7 @@ g_strncasecmp (const gchar *s1,
+                const gchar *s2,
+                guint n)
+ {
+-#ifdef HAVE_STRNCASECMP
++#if defined(HAVE_STRNCASECMP) && !defined(__MVS__)
+   return strncasecmp (s1, s2, n);
+ #else
+   gint c1, c2;
+diff --git a/glib/glib/gutils.c b/glib/glib/gutils.c
+index 2620cb6..6ee4d7c 100644
+--- a/glib/glib/gutils.c
++++ b/glib/glib/gutils.c
+@@ -749,7 +749,7 @@ g_get_user_database_entry (void)
+           {
+             e.user_name = g_strdup (pw->pw_name);
+ 
+-#ifndef __BIONIC__
++#if !defined(__BIONIC__) && !defined(__MVS__)
+             if (pw->pw_gecos && *pw->pw_gecos != '\0')
+               {
+                 gchar **gecos_fields;
