@@ -1,3 +1,4 @@
+VERSION="0.29.2"
 export ZOPEN_TARBALL_URL="https://pkgconfig.freedesktop.org/releases/pkg-config-0.29.2.tar.gz"
 export ZOPEN_TARBALL_DEPS="make zoslib coreutils sed findutils"
 export ZOPEN_EXTRA_CONFIGURE_OPTS="--with-internal-glib"
@@ -31,7 +32,5 @@ zopen_append_to_setup()
 
 zopen_get_version()
 {
-  # Modify to echo the version of your tool/library
-  # Rather than hardcoding the version, obtain the version by running the tool/library
-  echo "1.0.0"
+  echo "0.29.2"
 }
