@@ -1,6 +1,6 @@
 VERSION="0.29.2"
 export ZOPEN_NAME="pkgconfig"
-export ZOPEN_TARBALL_URL="https://pkgconfig.freedesktop.org/releases/pkg-config-0.29.2.tar.gz"
+export ZOPEN_TARBALL_URL="https://pkgconfig.freedesktop.org/releases/pkg-config-$VERSION.tar.gz"
 export ZOPEN_TARBALL_DEPS="make zoslib coreutils sed findutils"
 export ZOPEN_EXTRA_CONFIGURE_OPTS="--with-internal-glib"
 export ZOPEN_TYPE="TARBALL"
@@ -23,7 +23,9 @@ ZZ
 
 zopen_append_to_env()
 {
-  # echo envars outside of PATH, MANPATH, LIBPATH
+cat <<ZZ
+  export ACLOCAL_PATH="\$PWD/share/aclocal:\$ACLOCAL_PATH"
+ZZ
 }
 
 zopen_append_to_setup()
@@ -33,5 +35,5 @@ zopen_append_to_setup()
 
 zopen_get_version()
 {
-  echo "0.29.2"
+  echo "$VERSION"
 }
